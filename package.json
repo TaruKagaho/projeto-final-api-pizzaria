@@ -1,0 +1,19 @@
+{
+  "name": "pizzaria",
+  "version": "1.0.0",
+  "description": "Projeto final do curso de NodeJS da turma 03 da Gama Academy onde é desenvolvido um CRUD para uma pizzaria;",
+  "main": "index.js",
+  "author": "Adir Silva Filho",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon /src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
