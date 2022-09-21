@@ -9,11 +9,17 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.1",
+    "express-jwt": "^7.7.5",
+    "express-validation": "^4.1.0",
+    "joiptbr": "^1.0.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.23.0"
   },
   "devDependencies": {
+    "dotenv": "^16.0.2",
     "nodemon": "^2.0.20"
   }
 }
