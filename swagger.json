@@ -1,0 +1,944 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Pizzaria",
+        "description": "Documentação para API Pizzaria",
+        "vesion": "1.0.0",
+        "license": {
+            "name": "MIT",
+            "url": "https://spdx.org/licenses/MIT.html"
+        },
+        "contact": {
+            "name": "Adir Silva Filho",
+            "email": "atsilva_2003@yahoo.com.br"
+        }
+    },
+    "basePath": "/",
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "description": "Autentiucação utilizando o JWT.",
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/customers": {
+            "post": {
+                "description": "Rota que cadastra um cliente.",
+                "summary": "Cadastro de um cliente.",
+                "tags": [
+                    "Customers"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para cadastrar um cliente.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "example": {
+                                    "name": "João das Neves",
+                                    "email": "joao.neves@email.com",
+                                    "password": "1q2w3e4r"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "E-mail já cadastrado."
+                    },
+                    "201": {
+                        "description": "Criado novo cliente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 1,
+                                        "name": "Ederaldo Gentil",
+                                        "email": "ederaldo.neves@email.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Rota que retorna uma lista dos clientes cadastrados.",
+                "summary": "Lista clientes cadastrados.",
+                "tags": [
+                    "Customers"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "id": 2,
+                                            "name": "Arnaud Rodrigues",
+                                            "email": "arnaud.rodrigues@email.com"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "name": "Pedro Luis",
+                                            "email": "pedro.luis@email"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customers/{id}": {
+            "get": {
+                "description": "Rota que busca cliente pelo id.",
+                "summary": "Busca de um cliente pelo id.",
+                "tags": [
+                    "Customers"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do cliente.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Cliente não encontrado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 4,
+                                        "name": "Elza Soares",
+                                        "email": "elza.soares@email.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Rota que atualiza cliente pelo id.",
+                "summary": "Atualização de um cliente pelo id.",
+                "tags": [
+                    "Customers"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do cliente.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para atualizar um cliente.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "João das Neves",
+                                    "email": "joao.neves@email.com",
+                                    "password": "1q2w3e4r"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Cliente não encontrado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 5,
+                                        "name": "Tulio Piva",
+                                        "email": "tulio.piva@email.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Rota que exclui cliente pelo id.",
+                "summary": "Exclusão de um cliente pelo id.",
+                "tags": [
+                    "Customers"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do cliente.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Cliente não encontrado."
+                    },
+                    "200": {
+                        "description": "Cliente excluído com sucesso."
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Rota para gerar o token de acesso de um cliente.",
+                "summary": "Gera o token de acesso de um cliente.",
+                "tags": [
+                    "Login"
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para cadastrar um cliente.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "example": {
+                                    "email": "joao.neves@email.com",
+                                    "password": "1q2w3e4r"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "E-mail já cadastrado."
+                    },
+                    "201": {
+                        "description": "Criado novo cliente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 1,
+                                        "name": "Ederaldo Gentil",
+                                        "email": "ederaldo.neves@email.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "post": {
+                "description": "Rota que cadastra um pedido do cliente.",
+                "summary": "Cadastro de um pedido do cliente.",
+                "tags": [
+                    "Orders"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para cadastrar um pedido do cliente.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customers_id": {
+                                        "type": "number"
+                                    },
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "pizzas_id": {
+                                                    "type": "number"
+                                                },
+                                                "quantity": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "required": [
+                                                "pizzas_id",
+                                                "quantity"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "customers_id",
+                                    "items"
+                                ],
+                                "example": {
+                                    "customers_id": 10,
+                                    "items": [
+                                        {
+                                            "pizzas_id": 5,
+                                            "quantity": 1
+                                        },
+                                        {
+                                            "pizzas_id": 2,
+                                            "quantity": 3
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "ID informado não encontrado."
+                    },
+                    "201": {
+                        "description": "Criado novo pedido do cliente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "order_id": {
+                                            "type": "number"
+                                        },
+                                        "customer_name": {
+                                            "type": "string"
+                                        },
+                                        "pizzas": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "pizzas_id": {
+                                                        "type": "number"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "number"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "number"
+                                                    },
+                                                    "orders_id": {
+                                                        "type": "number"
+                                                    },
+                                                    "item_id": {
+                                                        "type": "number"
+                                                    },
+                                                    "total_item": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "example": {
+                                        "order_id": 3,
+                                        "customer_name": "João das Neves",
+                                        "pizzas": [
+                                            {
+                                                "pizzas_id": 5,
+                                                "name": "Diavola",
+                                                "price": 750,
+                                                "quantity": 1,
+                                                "orders_id": 3,
+                                                "item_id": 5,
+                                                "total_item": 750
+                                            },
+                                            {
+                                                "pizzas_id": 2,
+                                                "name": "Bufala",
+                                                "price": 600,
+                                                "quantity": 3,
+                                                "orders_id": 3,
+                                                "item_id": 6,
+                                                "total_item": 1800
+                                            }
+                                        ],
+                                        "total": 2550
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Rota que retorna uma lista de pedidos cadastrados.",
+                "summary": "Lista os pedidos cadastrados.",
+                "tags": [
+                    "Orders"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id_order": {
+                                                "type": "number"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "items": {
+                                                "type": "array",
+                                                "properties": {
+                                                    "id_item": {
+                                                        "type": "number"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "number"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "number"
+                                                    },
+                                                    "total_item": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            },
+                                            "total": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "id_order": 2,
+                                            "name": "Ederaldo Gentil",
+                                            "items": [
+                                                {
+                                                    "id_item": 3,
+                                                    "name": "Bufala",
+                                                    "price": 600,
+                                                    "quantity": 3,
+                                                    "total_item": 1800
+                                                },
+                                                {
+                                                    "id_item": 4,
+                                                    "name": "Pizza Bianca",
+                                                    "price": 830,
+                                                    "quantity": 1,
+                                                    "total_item": 830
+                                                }
+                                            ],
+                                            "total": 2630
+                                        },
+                                        {
+                                            "id_order": 3,
+                                            "name": "João das Neves",
+                                            "items": [
+                                                {
+                                                    "id_item": 5,
+                                                    "name": "Diavola",
+                                                    "price": 750,
+                                                    "quantity": 1,
+                                                    "total_item": 750
+                                                },
+                                                {
+                                                    "id_item": 6,
+                                                    "name": "Bufala",
+                                                    "price": 600,
+                                                    "quantity": 3,
+                                                    "total_item": 1800
+                                                }
+                                            ],
+                                            "total": 2550
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "description": "Rota que busca um pedido pelo id.",
+                "summary": "Busca de um pedido pelo id.",
+                "tags": [
+                    "Orders"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do pedido.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "orders_id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_item": {
+                                                        "type": "number"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "number"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "number"
+                                                    },
+                                                    "total_item": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "example": {
+                                        "orders_id": 3,
+                                        "name": "João das Neves",
+                                        "items": [
+                                            {
+                                                "id_item": 5,
+                                                "name": "Diavola",
+                                                "price": 750,
+                                                "quantity": 1,
+                                                "total_item": 750
+                                            },
+                                            {
+                                                "id_item": 6,
+                                                "name": "Bufala",
+                                                "price": 600,
+                                                "quantity": 3,
+                                                "total_item": 1800
+                                            }
+                                        ],
+                                        "total": 2550
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Rota que atualiza um pedido pelo id.",
+                "summary": "Atualização de um pedido pelo id.",
+                "tags": [
+                    "Orders"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do pedido.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados necessários para atualizar um pedido.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "pizzas_id": {
+                                                    "type": "number"
+                                                },
+                                                "quantity": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "pizzas_id",
+                                                "quantity"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "items"
+                                ],
+                                "example": {
+                                    "items": [
+                                        {
+                                            "id": 3,
+                                            "pizzas_id": 5,
+                                            "quantity": 1
+                                        },
+                                        {
+                                            "id": 4,
+                                            "pizzas_id": 2,
+                                            "quantity": 3
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "ID não encontrado."
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "pizzas_id": {
+                                                        "type": "number"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "orders_id": 2,
+                                        "name": "Silva",
+                                        "items": [
+                                            {
+                                                "pizzas_id": 5,
+                                                "name": "Diavola",
+                                                "price": 750,
+                                                "quantity": 4,
+                                                "id": 3,
+                                                "orders_id": 2,
+                                                "total_item": 3000
+                                            },
+                                            {
+                                                "pizzas_id": 3,
+                                                "name": "Romana",
+                                                "price": 575,
+                                                "quantity": 2,
+                                                "id": 4,
+                                                "orders_id": 2,
+                                                "total_item": 1150
+                                            }
+                                        ],
+                                        "total": 4150
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Rota que exclui um pedido pelo id.",
+                "summary": "Exclusão de um pedido pelo id.",
+                "tags": [
+                    "Orders"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "description": "ID do pedido.",
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado."
+                    },
+                    "200": {
+                        "description": "Pedido excluído com sucesso."
+                    }
+                }
+            }
+        },
+        "/pizzas": {
+            "get": {
+                "description": "Rota que retorna uma lista das pizzas cadastrados.",
+                "summary": "Lista as pizzas cadastrados.",
+                "tags": [
+                    "Pizzas"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    },
+                                    "example": [
+                                        {
+                                            "id": 1,
+                                            "name": "Margherita",
+                                            "price": 500
+                                        },
+                                        {
+                                            "id": 2,
+                                            "name": "Bufala",
+                                            "price": 600
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
