@@ -1,5 +1,5 @@
 {
-  "name": "pizzaria",
+  "name": "pizzaria-gama",
   "version": "1.0.0",
   "description": "Projeto final do curso de NodeJS da turma 03 da Gama Academy onde é desenvolvido um CRUD para uma pizzaria;",
   "main": "index.js",
@@ -16,7 +16,8 @@
     "joiptbr": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.23.0"
+    "sequelize": "^6.23.0",
+    "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
     "dotenv": "^16.0.2",
