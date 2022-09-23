@@ -11,15 +11,21 @@ const addNewCustomer = async ( req, res ) => {
         const cryptPassword = await bcrypt.hash( password, 10 );
 
         // @ts-ignore
-        const newCustomer = await Customers.create( {
+        const addedCustomer = await Customers.create( {
             name,
             email,
             password: cryptPassword,
         } );
 
+        const newCustomer = {
+            id: addedCustomer.id,
+            name: addedCustomer.name, 
+            email: addedCustomer.email,
+        };
+
         return res.status( 201 ).json( newCustomer );
     } catch ( error ) {
-        console.log( error.message );
+        return res.status( 400 ).json( { error: error.errors[ 0 ].message } );
     }
 };
 
@@ -52,9 +58,9 @@ const updateCustomer = async ( req, res ) => {
         const { id } = req.params;
         const { name, email, password } = req.body;
         const { customer } = req;
-        
+
         let cryptPassword;
-        
+
         if ( password ) {
             cryptPassword = await bcrypt.hash( password, 10 );
         }
@@ -74,7 +80,7 @@ const updateCustomer = async ( req, res ) => {
             name: name ? name : customer.name,
             email: email ? email : customer.email,
         };
-        
+
         return res.status( 200 ).json( customerUpdated );
     } catch ( error ) {
         console.log( error.message );
@@ -92,7 +98,6 @@ const deleteCustomer = async ( req, res ) => {
             }
         } );
 
-        // return res.status( 204 );
         return res.status( 200 ).json( "Cliente removido com sucesso" );
     } catch ( error ) {
         console.log( error.message );
