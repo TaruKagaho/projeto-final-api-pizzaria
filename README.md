@@ -117,7 +117,7 @@ Essa é a rota que permite o cliente cadastrado realizar o login no sistema.
 {
     "cliente": {
         "id": 1,
-        "nome": "José",
+        "name": "José",
         "email": "jose@email.com"
     },
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjIzMjQ5NjIxLCJleHAiOjE2MjMyNzg0MjF9.KLR9t7m_JQJfpuRv9_8H2-XJ92TSjKhGPxJXVfX6wBI"

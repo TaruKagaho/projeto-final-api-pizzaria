@@ -38,7 +38,6 @@ router.get( "/docs", ( req, res ) => {
 
 router.post(
     "/customers",
-    // verifyCustomers.checkInfosNewCustomer, 
     validate( schemasCustomers.schemaAddCustomer ),
     customersController.addNewCustomer
 );
