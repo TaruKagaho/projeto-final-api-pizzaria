@@ -22,7 +22,7 @@ const checkOrderExist = async ( req, res, next ) => {
         );
 
         if ( customerOrder.length === 0 ) {
-            return res.status( 404 ).json( "Pedido não cadastrado." );
+            return res.status( 400 ).json( "Pedido não cadastrado." );
         }
 
         req.order = customerOrder[ 0 ];

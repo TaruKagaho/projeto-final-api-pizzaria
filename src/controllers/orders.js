@@ -166,43 +166,74 @@ const getOrderById = async ( req, res ) => {
 
 const updateOrder = async ( req, res ) => {
     try {
-        const { items } = req.body;
-        const { order } = req;
+        const { order, pizzas } = req;
 
-        const itemsDB = await Items.findAll(
+        /* const itemsDB = await Items.findAll(
             {
-                attributes: [ "id" ],
+                attributes: {
+                    exclude: [
+                        "createdAt",
+                        "updatedAt"
+                    ],
+                },
                 where: {
                     orders_id: order.orders_id,
                 },
             }
-        );
+        ); */
 
-        const itemsDBid = itemsDB.map( item => {
-            return item.id;
-        } );
+        const localItems = [ ...pizzas ];
 
-        const localItems = [ ...items ];
+        let total = 0;
 
-        for ( let i = 0; i < localItems.length; i++ ) {
-            localItems[ i ].id = itemsDBid[ i ];
-            localItems[ i ].orders_id = order.orders_id;
+        for ( const item of localItems ) {
+            item.orders_id = order.orders_id;
+            item.total_item = item.price * item.quantity;
+
+            total += item.total_item;
+            
+            const queryUpdate = `
+            UPDATE items
+            SET 
+                pizzas_id = ?,
+                quantity = ?
+            WHERE id = ?
+        `;
+            await db.query(
+                queryUpdate,
+                {
+                    replacements: [
+                        item.pizzas_id,
+                        item.quantity,
+                        item.id
+                    ],
+                }
+            );
         }
 
-        const itemsUpadete = await Items.bulkCreate(
+        /* const updated = await Items.bulkCreate(
             localItems,
             {
                 updateOnDuplicate: [ "pizzas_id", "quantity" ],
+                where: {
+                    orders_id: order.orders_id
+                }
             }
-        );
+        ); */
 
-        return res.status( 200 ).json( { itemsUpadete: itemsUpadete } );
+        const itemsUpdated = {
+            ...order,
+            items: [ ...localItems ],
+            total
+        };
+
+        return res.status( 200 ).json( itemsUpdated );
     } catch ( error ) {
         console.log( error.message );
     }
 };
 
-const deleteOrder = async ( req, res ) => { 
+const deleteOrder = async ( req, res ) => {
     try {
         const { id } = req.params;
 
