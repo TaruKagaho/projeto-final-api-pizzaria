@@ -20,10 +20,21 @@ const { schemaParams } = require( "../validations/params" );
 const {
     schemaAddOrder,
     schemaUpdateOrder
-} = require( "../validations/oders" );
+} = require( "../validations/orders" );
 
 const router = express.Router();
-// const router = express();
+const swaggerUi = require( "swagger-ui-express" );
+const swaggerDocument = require( "../../swagger.json" );
+
+router.use( "/api-docs", swaggerUi.serve );
+router.get( "/api-docs", swaggerUi.setup( swaggerDocument ) );
+
+router.get( "/swagger", ( req, res ) => {
+    return res.sendFile( process.cwd() + "/swagger.json" );
+} );
+router.get( "/docs", ( req, res ) => {
+    return res.sendFile( process.cwd() + "/index.html" );
+} );
 
 router.post(
     "/customers",
@@ -90,6 +101,7 @@ router.put(
     validate( schemaParams ),
     verifyOrders.checkOrderExist,
     validate( schemaUpdateOrder ),
+    verifyPizzas.checkPizzaExist,
     ordersController.updateOrder,
 );
 router.delete(
