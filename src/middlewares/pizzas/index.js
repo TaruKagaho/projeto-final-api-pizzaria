@@ -3,7 +3,7 @@ const { db } = require( "../../database/connection" );
 const checkPizzaExist = async ( req, res, next ) => {
     try {
         const { items } = req.body;
-        
+
         const queryPizzas = `
             SELECT 
                 id as pizzas_id, 
@@ -21,12 +21,13 @@ const checkPizzaExist = async ( req, res, next ) => {
             }
 
             pizzaFinded.quantity = item.quantity;
+            pizzaFinded.id = item.id;
 
             acc.push( pizzaFinded );
 
             return acc;
         }, [] );
-        
+
         req.pizzas = pizzasOrdered;
 
         next();
