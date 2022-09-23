@@ -28,7 +28,13 @@ const checkCustomerExist = async ( req, res, next ) => {
         if ( url.includes( "/customers" ) ) {
             const { id } = req.params;
             
-            req.customer = await findCustomer( res, Number( id ) );
+            const customer = await findCustomer( res, Number( id ) );
+            
+            if (!customer) {
+                return;
+            }
+            
+            req.customer = customer; 
         }
 
         if ( url.includes( "/orders" ) ) {
