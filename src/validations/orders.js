@@ -20,6 +20,7 @@ const schemaUpdateOrder = {
             .array()
             .min( 1 )
             .items( {
+                id: joi.number().integer().positive().strict().required(),
                 pizzas_id: joi.number().integer().positive().strict().required(),
                 quantity: joi.number().integer().positive().strict().required(),
             } )
